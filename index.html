@@ -1,54 +1,90 @@
-<!DOCTYPE HTML>
+<!DOCTYPE html>
 <html>
-  <head>
-    <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
-    <title>URL Cycler</title>
-    <style>button{display: block;}</style>
-  </head>
+<head>
+    <title>Auto Tab Opener</title>
+</head>
+<body>
 
-  <body>
-    <!-- <h1>Now displaying: <span id="url">Nothing</span></h1> -->
-    <iframe id="frame" src="" width="1080" height="720"></iframe>
-    <!-- <button id="cycle">Cycle</button> -->
-
-    <script type="text/javascript">
-      var urlArray = ['https://google.com','https://prod-apnortheast-a.online.tableau.com/#/site/limechat/views/BOTFlowsTrackingDB/ConversionandAutomationMetrics?:iid=1','https://prod-apnortheast-a.online.tableau.com/#/site/limechat/views/BOTFlowsTrackingDB/BOTFlowsTrackingV2?:iid=1','https://prod-apnortheast-a.online.tableau.com/#/site/limechat/views/BOTFlowsTrackingDB/CSATFlow?:iid=1','https://prod-apnortheast-a.online.tableau.com/#/site/limechat/views/BOTFlowsTrackingDB/AgentHandoff?:iid=1','https://prod-apnortheast-a.online.tableau.com/#/site/limechat/views/BOTFlowsTrackingDB/UsersLastAction?:iid=1','https://prod-apnortheast-a.online.tableau.com/#/site/limechat/views/CompanyWideDB/1_CompanyKPI?:iid=1','https://prod-apnortheast-a.online.tableau.com/#/site/limechat/views/CompanyWideDB/2_CampaignBreakdown?:iid=1','https://prod-apnortheast-a.online.tableau.com/#/site/limechat/views/CompanyWideDB/2_BuyingDropoffChart?:iid=1','https://prod-apnortheast-a.online.tableau.com/#/site/limechat/views/CompanyWideDB/3_BuyingDropoffTable?:iid=1','https://prod-apnortheast-a.online.tableau.com/#/site/limechat/views/CompanyWideDB/2_RevenueBreakdown?:iid=1'];
-      var count = -1;
-      var i = document.getElementById('frame');
-      // var c = document.getElementById('cycle');
-      var u = document.getElementById('url');
-      let currEl = 0
-
-      function nextUrl() {
-        url = urlArray[++count];
-        count = (count >= urlArray.length - 1)? -1 : count;
-        return url;
-      }
-
-      function setUrl(){
-        // c.disabled = true;
-        u.innerHTML = '';
-        i.src = nextUrl();
-        i.onload = function(){
-          u.innerHTML = i.src;
-          // c.disabled = false;
+<script>
+    // Array of websites to open
+    (async function(){
+        function setTimeoutPromise(windowToClose, seconds) {
+        return new Promise(resolve => {
+            setTimeout(()=> {
+                console.log('resolve called', seconds);
+                console.log(windowToClose);
+                windowToClose.close();
+                resolve();
+            }, seconds)
+            });
         }
-      }
+        let websites  = [
+            {
+                url: "https://prod-apnortheast-a.online.tableau.com/#/site/limechat/views/BOTFlowsTrackingDB/ConversionandAutomationMetrics?:iid=1",
+                seconds: 150000
+            },
 
-      setInterval(()=>{
-        console.log("set interval ran");
-        setUrl()
-      },10000)
+            {
+                url: "https://prod-apnortheast-a.online.tableau.com/#/site/limechat/views/BOTFlowsTrackingDB/BOTFlowsTrackingV2?:iid=1",
+                seconds: 150000
+            },
 
-      // c.onclick = function(){
-      //   c.disabled = true;
-      //   u.innerHTML = '';
-      //   i.src = nextUrl();
-      //   i.onload = function(){
-      //     u.innerHTML = i.src;
-      //     c.disabled = false;
-      //   }
-      // }
-    </script>
-  </body>
+            {
+                url: "https://prod-apnortheast-a.online.tableau.com/#/site/limechat/views/BOTFlowsTrackingDB/CSATFlow?:iid=1",
+                seconds: 150000
+            },
+
+            { 
+                url: "https://prod-apnortheast-a.online.tableau.com/#/site/limechat/views/BOTFlowsTrackingDB/AgentHandoff?:iid=1",
+                seconds: 150000
+            },
+
+            {
+                url: "https://prod-apnortheast-a.online.tableau.com/#/site/limechat/views/BOTFlowsTrackingDB/UsersLastAction?:iid=1",
+                seconds: 150000
+            },
+
+            {
+                url: "https://prod-apnortheast-a.online.tableau.com/#/site/limechat/views/CompanyWideDB/1_CompanyKPI?:iid=1",
+                seconds: 150000
+            },
+
+            {
+                url: "https://prod-apnortheast-a.online.tableau.com/#/site/limechat/views/CompanyWideDB/2_CampaignBreakdown?:iid=1",
+                seconds: 150000
+            },
+
+            {
+                url: "https://prod-apnortheast-a.online.tableau.com/#/site/limechat/views/CompanyWideDB/2_BuyingDropoffChart?:iid=1",
+                seconds: 150000
+            },
+
+            {
+                url: "https://prod-apnortheast-a.online.tableau.com/#/site/limechat/views/CompanyWideDB/3_BuyingDropoffTable?:iid=1",
+                seconds: 150000
+            },
+
+            {
+                url: "https://prod-apnortheast-a.online.tableau.com/#/site/limechat/views/CompanyWideDB/2_RevenueBreakdown?:iid=1",
+                seconds: 150000
+            }
+        ];
+
+        let i = 0;
+        while (i < websites.length) {
+            console.log(websites[i]);
+            
+            await setTimeoutPromise(window.open(websites[i].url, "_blank"), websites[i].seconds);
+            i++;
+            if (i >= websites.length) {
+                i = 0;
+            }
+        }
+    }())
+
+    // Call the function to start opening and closing tabs
+    // openCloseTabs();
+</script>
+
+</body>
 </html>
